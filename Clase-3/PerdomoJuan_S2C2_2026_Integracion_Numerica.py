@@ -67,6 +67,40 @@ print(f"\n Integral de simpsoon numerica es: {Int_simpson}. La integral analitic
 # 3a)Repita el ejercicio anterior usando algunos de los métodos de las librerías de scipy
 # https://docs.scipy.org/doc/scipy/tutorial/integrate.html
 
+from scipy.integrate import trapezoid, simpson
 
+Int_scipy_trapecio = trapezoid(fx, x)
+Int_scipy_simpson = simpson(fx, x = x)
+
+print(f"\n Integral de trapecio con scipy es: {Int_scipy_trapecio}. La integral analitica es: {Int_analitica}")
+print(f"\n Integral de simpson con scipy es: {Int_scipy_simpson}. La integral analitica es: {Int_analitica}")
 
 # 3b)OPCIONAL: Repita el ejercicio anterior usando el método de Monte Carlo y/o el del valor medio (ver diapositivas)
+
+N = 10000
+
+x_random = np.random.uniform(a, b, N)
+
+evaluar = funcion(x_random)
+
+Int_Valor_medio = (b-a) * np.mean(evaluar)
+
+print(f"\n Integral de valor medio (con N = {N}) es: {Int_Valor_medio}. La integral analitica es: {Int_analitica}")
+
+fx = funcion(x_random)
+
+y_min = np.min(fx)
+y_max = np.max(fx)
+
+y_random = np.random.uniform(y_min, y_max, N)
+
+puntos_positivos = (y_random <= fx) & (y_random >= 0)
+puntos_negativos = (y_random >= fx) & (y_random <= 0)
+
+proporcion = ((np.sum(puntos_positivos) - np.sum(puntos_negativos)))/N
+
+area_total = (b-a) * (y_max - y_min)
+
+Int_MonteCarlo = area_total * proporcion
+
+print(f"\n Integral de Monte Carlo (con N = {N}) es: {Int_MonteCarlo}. La integral analitica es: {Int_analitica}")
