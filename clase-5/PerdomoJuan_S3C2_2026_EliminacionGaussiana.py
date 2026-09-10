@@ -26,6 +26,9 @@ for i in range(N):
 print(f"\n Matriz triangular superior: \n {M}")
 print(f"\n Vector constantes tranformado: \n {B}")
 
-x = np.zeros(N,1)
-for k in reversed(N):
-    x[k] = B[k] - np.sum(M[k,1:]*B[1:])
+x = np.zeros((N,1))
+
+for k in reversed(range(N)):
+    x[k] = B[k] - np.dot(M[k,k+1:], x[k+1:])
+
+print(f"\n Solucion con eliminacion Gaussiana: \n {x}")
