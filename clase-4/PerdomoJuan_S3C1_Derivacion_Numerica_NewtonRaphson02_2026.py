@@ -111,7 +111,7 @@ x_0 = -2.35
 while np.abs(poli(x_0)) > 1e-10:
 	x_0 -= poli(x_0) / deriv(poli, x_0)
 
-print(f"Raíz encontrada: {x_0}. Valor del polinomio en la raíz: {poli(x_0)}")
+print(f"\n Raíz encontrada dado el x_guess = -2.35: {x_0}. Valor del polinomio en la raíz: {poli(x_0)}")
 
 # 1c.) Repita lo anterior para 1000 valores de x_guess generados aleatoriamente en el intervalo [-4:4].
 #Cuente cuantas iteraciones necesita su codigo para encontrar una raiz x_r del polinomio (tal que $f(x_r) sea menor a 10^{-10} para cada x_guess.
@@ -141,4 +141,4 @@ plt.show()
 # 1d.) Imprima un mensaje en donde explique por que cree que para ciertos valores de x_guess el numero de iteraciones necesarios para encontrar la raiz es mayor.
 #Ademas haga un analisis y describa que pasa con los valores de x_r encontrados en esos puntos "problema" comparados con los encontrados para otros valores de x_guess.
 
-print(f"\n El numero de iteraciones aumenta para ciertos valores porque estos corresponden o son muy cercanos a los puntos criticos del polinomio. Como alli la derivada del polinomio se vuelve casi cero el metodo de Newton-Raphson hace que el paso que de sea muy grande y por tanto la convergencia se vuelve mas lenta. Ademas, en estos valores la raiz encontrada puede diferir mucho de la raiz mas cercana por la misma razon del paso grande que da el metodo.")
+print(f"\n El numero de iteraciones aumenta para ciertos valores porque estos corresponden o son muy cercanos a los puntos criticos del polinomio. Como alli la derivada del polinomio se vuelve casi cero el metodo de Newton-Raphson hace que el paso que de sea muy grande y por tanto la convergencia se vuelve mas lenta. Ademas, en estos valores la raiz encontrada puede diferir mucho de la raiz mas cercana por la misma razon del paso grande que da el metodo.\n")
