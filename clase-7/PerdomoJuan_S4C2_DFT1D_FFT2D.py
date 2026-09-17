@@ -2,7 +2,7 @@
 
 import numpy as np
 import matplotlib.pylab as plt
-from scipy.fftpack import fft, fftfreq, ifft, fft2, ifft2, fftshift
+from scipy.fftpack import fft, fftfreq, ifft, fft2, ifft2, fftshift, ifftshift
 
 # Construcción de la señal
 N = 128 # number of point in the whole interval
@@ -253,12 +253,9 @@ plt.show()
 from matplotlib.pyplot import imread, imshow
 
 moon_data = imread('moon.jpg', )
-moon_size = np.shape(moon_data)
-N = moon_size[0]
-M = moon_size[1]
-d1, d2 = 1.0, 1.0
 
-moon_image = imshow(moon_data)
+plt.imshow(moon_data, cmap='gray')
+plt.axis('off')
 plt.show()
 
 # 2) Use la librería de scipy de transformada de fourier en 2d y la trasnformada inversa
@@ -266,20 +263,31 @@ plt.show()
 #para hacer un código que filtre el ruido periodico que tiene la imagen de la luna.
 
 moon_fft = fft2(moon_data)
-moon_freqs_x = fftfreq(M, d=d1)
-moon_freqs_y = fftfreq(N, d=d2)
-moon_fft_organized = fftshift(moon_fft)
+moon_fft_shift = fftshift(moon_fft)
 
-freq_ruido_moon = np.abs(moon_freqs_x[np.argmax(np.abs(moon_fft))])
-bw_moon = 20
-fft_filtro_ruido_moon = moon_fft_organized.copy()
-fft_filtro_ruido_moon[np.abs(np.abs(moon_freqs_x) - freq_ruido_moon) < bw_moon] = 0
+fft_filtro_ruido_moon = moon_fft_shift.copy()
+fils, cols = moon_data.shape
+centro_r, centro_c = fils // 2, cols // 2
 
-moon_filtro_ruido = np.real(ifft2(fft_filtro_ruido_moon * moon_size))
+umbral = 2
+rad_centro = 30
+
+for r in range(fils):
+    for c in range(cols):
+        if abs(r - centro_r) <= umbral:
+            if abs(c - centro_c) > rad_centro:
+                fft_filtro_ruido_moon[r, c] = 0
+
+moon_fft_unshift = ifftshift(fft_filtro_ruido_moon)
+moon_filtro_ruido = np.real(ifft2(moon_fft_unshift))
+moon_filtro_ruido = np.clip(moon_filtro_ruido, 0, 255)
 
 #3) haga una gráfica de la imagen filtrada y guárdela en LunaFiltrada.png
 
-moon_image_filter = imshow(moon_filtro_ruido)
+plt.figure(figsize=(10, 10), dpi=120)
+plt.imshow(moon_filtro_ruido, cmap='gray')
+plt.axis('off')
+plt.savefig('LunaFiltrada.png', bbox_inches='tight', pad_inches=0)
 plt.show()
 
 #imagen: https://blogs.3ds.com/simulia/wp-content/uploads/sites/18/2019/07/NASA_Moon.jpg
@@ -294,10 +302,19 @@ plt.show()
 
 #1)Descargue los datos de fase y magnitud
 
-
+magnitude = np.genfromtxt('magnitude.dat', delimiter=' ')
+phase = np.genfromtxt('phase.dat', delimiter=' ')
 
 #2) construya la transformada de fourier
 
-
+fft_reconstruct = magnitude * np.exp(1j * phase)
 
 #3) Obtenga la imagen haciendo la transformada inversa
+
+image_recover = np.real(ifft2(fft_reconstruct))
+
+plt.figure(figsize=(10, 10), dpi=120)
+plt.imshow(image_recover, cmap='gray')
+plt.axis('off')
+plt.savefig('Image_recover.png', bbox_inches='tight', pad_inches=0)
+plt.show()
