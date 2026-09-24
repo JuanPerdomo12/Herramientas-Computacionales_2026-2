@@ -10,6 +10,7 @@ typedef std::valarray<double> state_t;
 void initial_conditions(state_t & y);
 void print(const state_t & y, double time);
 void yderiv(const state_t & y, state_t & dydt, double t);
+void struct_filename(std::string metodo, double h);
 
 template <class deriv_t, class system_t, class printer_t>
 void euler(deriv_t yderiv, system_t & y, double tinit, double tend, double h, printer_t writer)
@@ -51,16 +52,18 @@ int main()
     int N = 1;
     double t_i = 0.0;
     double t_f = 2.0;
-    double h = 0.01;
 
     state_t y(N);
+
+    for(double h : {0.01, 0.001}){
+    struct_filename("euler", h);
     initial_conditions(y);
-
-    std::ofstream clean("EDO_0.01.txt");
-    clean.close();
-
     euler(yderiv, y, t_i, t_f, h, print);
+
+    struct_filename("rk4", h);
+    initial_conditions(y);
     runge_kutta_4(yderiv, y, t_i, t_f, h, print);
+    }
     return 0;
 }
 
@@ -69,13 +72,24 @@ void initial_conditions(state_t & y)
   y[0] = 1.0;
 }
 
+std::string filename = "";
+
 void print(const state_t & y, double time)
 {
-    std::ofstream archivo("EDO_0.01.txt", std::ios::app);
-    if (archivo.is_open()){
-        archivo << time << " " << y[0] << std::endl;
-        archivo.close();
+    std::ofstream file(filename, std::ios::app);
+    if (file.is_open()){
+        file << time << " " << y[0] << std::endl;
+        file.close();
     }
+}
+
+void struct_filename(std::string metodo, double h){
+    std::ostringstream sf;
+    sf << "EDO_" << metodo << "_" << h << ".txt";
+    filename = sf.str();
+
+    std::ofstream clean(filename);
+    clean.close();
 }
 
 void yderiv(const state_t & y, state_t & dydt, double t)
