@@ -9,11 +9,13 @@ typedef std::valarray<double> state_t;
 
 const double k = 50.0;
 const double m = 0.2;
+const double b = 0.08;
 
 void initial_conditions(state_t & x);
 void print(const state_t & x, double time);
 void xderiv(const state_t & x, state_t & dxdt, double t);
 void struct_filename(std::string metodo, double h);
+void xderiv_damped(const state_t & x, state_t & dxdt, double t);
 
 template <class deriv_t, class system_t, class printer_t>
 void euler(deriv_t xderiv, system_t & x, double tinit, double tend, double h, printer_t writer)
@@ -94,6 +96,16 @@ int main()
     initial_conditions(x);
     leap_frog(xderiv, x, t_i, t_f, h, print);
     }
+
+    for(double h : {0.01, 0.001}){
+        struct_filename("damped_euler", h);
+        initial_conditions(x);
+        euler(xderiv_damped, x, t_i, t_f, h, print);
+
+        struct_filename("damped_rk", h);
+        initial_conditions(x);
+        runge_kutta_4(xderiv_damped, x, t_i, t_f, h, print);
+    }
     return 0;
 }
 
@@ -127,4 +139,10 @@ void xderiv(const state_t & x, state_t & dxdt, double t)
 {
     dxdt[0] = x[1];
     dxdt[1] = -(k/m)*x[0];
-}   
+}
+
+void xderiv_damped(const state_t & x, state_t & dxdt, double t)
+{
+    dxdt[0] = x[1];
+    dxdt[1] = -(k/m)*x[0] - b*x[1];
+}
