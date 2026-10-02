@@ -77,9 +77,32 @@ vy_S_lf_1_2 = lf_1_2[:,6]
 vx_T_lf_1_2 = lf_1_2[:,7]
 vy_T_lf_1_2 = lf_1_2[:,8]
 
+#datos observacionales
+
+a = 1.00000011
+e = 0.01671022
+
+theta = np.linspace(0, 2*np.pi, 1000)
+r_obs = (a*(1-e**2))/(1+e*np.cos(theta))
+
+x_obs = r_obs*np.cos(theta)
+y_obs = r_obs*np.sin(theta)
+
 t = np.linspace(0.0, 365.0, 1000)
 
 fig, ax = plt.subplots(figsize=(8, 6), dpi=120)
+
+ax.plot(
+    x_obs,
+    y_obs,
+    label="Datos Observacionales (NASA)",
+    color="black",
+    linestyle="--", 
+    linewidth=1,
+    marker="s",
+    markevery=1,
+    markersize=3,
+)
 
 ax.plot(
     x_euler_05_1,
@@ -163,6 +186,18 @@ plt.savefig("plot_edo2_planetas_sol_estatico.png")
 plt.show()
 
 fig, ax = plt.subplots(figsize=(8, 6), dpi=120)
+
+ax.plot(
+    x_obs,
+    y_obs,
+    label="Datos Observacionales (NASA)",
+    color="black",
+    linestyle="--", 
+    linewidth=1,
+    marker="s",
+    markevery=1,
+    markersize=3,
+)
 
 ax.plot(
     x_S_euler_05_2,

@@ -283,7 +283,7 @@ fig, ax = plt.subplots(figsize=(8, 6), dpi=120)
 
 ax.plot(
     t,
-    0.1*np.exp(-0.04*t)*np.cos(np.sqrt(50.0/0.2)*t),
+    0.1*np.exp(-0.4*t)*np.cos(np.sqrt(50.0/0.2)*t),
     label="Curva Analitica",
     color="#030303",
     linestyle="-",

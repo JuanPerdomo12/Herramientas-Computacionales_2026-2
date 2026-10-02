@@ -9,7 +9,7 @@ typedef std::valarray<double> state_t;
 
 const double k = 50.0;
 const double m = 0.2;
-const double b = 0.08;
+const double b = 0.8;
 
 void initial_conditions(state_t & x);
 void print(const state_t & x, double time);
@@ -79,7 +79,7 @@ int main()
 {
     int N = 2;
     double t_i = 0.0;
-    double t_f = 5.0;
+    double t_f = 2.0;
 
     state_t x(N);
 
