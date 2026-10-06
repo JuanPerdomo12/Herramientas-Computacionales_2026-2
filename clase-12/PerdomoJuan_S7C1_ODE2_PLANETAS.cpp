@@ -13,6 +13,7 @@ const double M_earth = 3.00348959e-6;
 
 void initial_conditions_1_cuerpo(state_t & r);
 void initial_conditions_2_cuerpos(state_t & r);
+void initial_conditions_N_cuerpos(state_t & r);
 void print(const state_t & r, double time);
 void rderiv_1_cuerpo(const state_t & r, state_t & drdt, double t);
 void rderiv_2_cuerpos(const state_t & r, state_t & drdt, double t);
