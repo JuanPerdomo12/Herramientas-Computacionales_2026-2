@@ -570,7 +570,7 @@ ax_anim9.set_xlabel("x [UA]", fontsize=12)
 ax_anim9.set_ylabel("y [UA]", fontsize=12)
 ax_anim9.set_title("Simulación del Sistema Solar (9 Cuerpos)", fontsize=13)
 ax_anim9.grid(True, linestyle=":", alpha=0.6)
-ax_anim9.legend(loc="upper right", bbox_to_anchor=(1.25, 1.0))
+ax_anim9.legend(loc="upper right")
 
 def init_anim9():
     for linea, punto in zip(lineas_trayectoria, puntos_cuerpos):
