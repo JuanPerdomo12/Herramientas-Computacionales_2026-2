@@ -11,7 +11,7 @@ const double c = 300.0;
 const double L = 2.0;
 
 void initial_conditions_edp(state_t & u_pasado, double dx);
-void print(const state_t & u_futuro, double time);
+void print(const state_t & u, double time);
 void struct_filename(std::string problem, double factor);
 
 template <class system_t, class printer_t>
@@ -41,7 +41,7 @@ void finit_dif_edp(system_t & u_pasado, system_t & u_presente, system_t & u_futu
         u_futuro[N-1] = 0.0;
 
         for(size_t i = 1; i < N-1; ++i){
-            u_futuro[i] = 2*u_presente[i]+u_pasado[i]+alpha*(u_presente[i+1]-2*u_presente[i]+u_presente[i-1]);
+            u_futuro[i] = 2*u_presente[i]-u_pasado[i]+alpha*(u_presente[i+1]-2*u_presente[i]+u_presente[i-1]);
         }
 
         u_pasado = u_presente;
