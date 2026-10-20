@@ -4,7 +4,7 @@ from matplotlib.animation import FuncAnimation
 
 #difusion 2D
 
-difusion_2d = np.loadtxt("EDP_difusion_2D_10.txt")
+difusion_2d = np.loadtxt("EDP_difusion_2D_1.txt")
 
 t = difusion_2d[:, 0]
 T = difusion_2d[:, 1:]

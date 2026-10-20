@@ -55,10 +55,10 @@ void finit_dif_edp(system_t & u_presente, system_t & u_futuro, double tinit, dou
 
 int main()
 {
-    double dx = 0.1;
+    double dx = 0.01;
     int N = static_cast<int>(L/dx)+1; 
 
-    double dt = 10.0; 
+    double dt = 0.10;
 
     double t_i = 0.0;
     double t_f = 2500.0;
